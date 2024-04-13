@@ -1,0 +1,41 @@
+[gd_scene load_steps=6 format=3 uid="uid://csne87ncjoocp"]
+
+[ext_resource type="Script" path="res://scripts/potato.gd" id="1_uk5d3"]
+[ext_resource type="Script" path="res://scripts/crop.gd" id="2_ahnhg"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_ys602"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_uf157"]
+radius = 0.4
+height = 1.198
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_572a3"]
+
+[node name="Potato" type="Node3D"]
+script = ExtResource("1_uk5d3")
+
+[node name="visual" type="Node3D" parent="."]
+
+[node name="stage1" type="MeshInstance3D" parent="visual"]
+transform = Transform3D(0.707148, 0, 0, 0, 0.384716, 0, 0, 0, 0.721294, 0, 0, 0)
+visible = false
+mesh = SubResource("CapsuleMesh_ys602")
+skeleton = NodePath("../..")
+
+[node name="stage2" type="MeshInstance3D" parent="visual"]
+transform = Transform3D(1.4, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+visible = false
+mesh = SubResource("CapsuleMesh_uf157")
+skeleton = NodePath("../..")
+
+[node name="stage3" type="MeshInstance3D" parent="visual"]
+transform = Transform3D(1.36116, 0, 0, 0, 1, 0, 0, 0, 1.5, 0, 0, 0)
+visible = false
+mesh = SubResource("CapsuleMesh_572a3")
+skeleton = NodePath("../..")
+
+[node name="Crop" type="Node" parent="." node_paths=PackedStringArray("stage_1", "stage_2", "stage_3")]
+script = ExtResource("2_ahnhg")
+stage_1 = NodePath("../visual/stage1")
+stage_2 = NodePath("../visual/stage2")
+stage_3 = NodePath("../visual/stage3")

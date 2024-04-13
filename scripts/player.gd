@@ -26,9 +26,10 @@ func _input(event) -> void:
 	
 	if event.is_action_released("ui_cancel"):
 		get_tree().quit()
-	
+		
+	if event.is_action_pressed("lmb"):
+		pass
 
-var stoneIsLaunched : bool
 
 func _physics_process(delta):
 	handle_movement_input()

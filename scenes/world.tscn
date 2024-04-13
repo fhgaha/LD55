@@ -1,11 +1,13 @@
-[gd_scene load_steps=14 format=3 uid="uid://dlcpsecqrmfa0"]
+[gd_scene load_steps=17 format=3 uid="uid://dlcpsecqrmfa0"]
 
 [ext_resource type="Texture2D" uid="uid://cqc2km3qe8g65" path="res://Textures/kenney_prototype-textures/PNG/Dark/texture_06.png" id="1_pafwg"]
+[ext_resource type="Script" path="res://scripts/global.gd" id="1_vuwcd"]
 [ext_resource type="Texture2D" uid="uid://c70unipmfer27" path="res://Textures/kenney_prototype-textures/PNG/Green/texture_04.png" id="2_lfni7"]
 [ext_resource type="Texture2D" uid="uid://ctbxr86j47ic" path="res://Textures/kenney_prototype-textures/PNG/Orange/texture_05.png" id="3_8icxq"]
 [ext_resource type="Texture2D" uid="uid://dc461yrqfwe3p" path="res://Textures/kenney_prototype-textures/PNG/Red/texture_05.png" id="4_3w27r"]
 [ext_resource type="PackedScene" uid="uid://cfakv4wsp7ihv" path="res://scenes/player.tscn" id="5_xde1g"]
 [ext_resource type="PackedScene" uid="uid://dtstw4mwbc5dr" path="res://scenes/diva.tscn" id="6_i7aj4"]
+[ext_resource type="PackedScene" uid="uid://cwcj6kacdb06p" path="res://scenes/bed.tscn" id="7_nu6mm"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_wdg0n"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -35,7 +37,13 @@ albedo_texture = ExtResource("3_8icxq")
 albedo_texture = ExtResource("4_3w27r")
 uv1_triplanar = true
 
+[sub_resource type="CylinderMesh" id="CylinderMesh_bpamj"]
+
 [node name="world" type="Node3D"]
+
+[node name="global" type="Node" parent="." node_paths=PackedStringArray("well")]
+script = ExtResource("1_vuwcd")
+well = NodePath("../Placebles/well")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.866025, -0.433013, 0.25, 0, 0.5, 0.866025, -0.5, 0.75, -0.433013, 0, 0, 0)
@@ -69,7 +77,22 @@ transform = Transform3D(0.412178, 0, -2.97155, 0, 3, 0, 2.97155, 0, 0.412178, 5.
 material_override = SubResource("StandardMaterial3D_vhqr7")
 use_collision = true
 
-[node name="player" parent="." instance=ExtResource("5_xde1g")]
+[node name="beds" type="Node3D" parent="Placebles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 18.5741, 0, -2.29549)
 
-[node name="Diva" parent="." instance=ExtResource("6_i7aj4")]
-transform = Transform3D(-1.74846e-09, 0, 0.04, 0, 0.04, 0, -0.04, 0, -1.74846e-09, -7.87573, 0, 5.75433)
+[node name="bed" parent="Placebles/beds" instance=ExtResource("7_nu6mm")]
+
+[node name="well" type="Node3D" parent="Placebles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9.91791, 0, 2.2998)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Placebles/well"]
+transform = Transform3D(0.9, 0, 0, 0, 0.804555, 0, 0, 0, 0.84, 0, 0, 0)
+mesh = SubResource("CylinderMesh_bpamj")
+
+[node name="characters" type="Node3D" parent="."]
+
+[node name="player" parent="characters" instance=ExtResource("5_xde1g")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.82629, 0, 7.63138)
+
+[node name="Diva" parent="characters" instance=ExtResource("6_i7aj4")]
+transform = Transform3D(-1.74846e-09, 0, -0.04, 0, 0.04, 0, 0.04, 0, -1.74846e-09, -6.08019, 0, -0.962655)
