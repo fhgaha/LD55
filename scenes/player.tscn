@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://cfakv4wsp7ihv"]
+
+[ext_resource type="Script" path="res://scripts/player.gd" id="1_vtpuo"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_sqbqs"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_r16wk"]
+
+[node name="CharacterBody3D" type="CharacterBody3D"]
+script = ExtResource("1_vtpuo")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+shape = SubResource("CapsuleShape3D_sqbqs")
+
+[node name="visual" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="visual"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+mesh = SubResource("CapsuleMesh_r16wk")
+skeleton = NodePath("../..")
+
+[node name="camera_mount" type="Node3D" parent="."]
+
+[node name="Camera3D" type="Camera3D" parent="camera_mount"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.648, 3.5478)
