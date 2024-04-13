@@ -1,6 +1,6 @@
 extends State
 
-@export var SPEED = 5.0 
+@export var SPEED : float = 5.0 
 var target : Node3D = null
 
 func enter(_msg := {}) -> void:
@@ -21,12 +21,13 @@ func exit() -> void:
 func physics_update(_delta: float) -> void:
 	var direction = player.global_position.direction_to(target.global_position)
 	if direction:
-		player.play_anim(player.anim_player, "running")
+		player.play_anim("running")
 		player.velocity.x = direction.x * SPEED
 		player.velocity.z = direction.z * SPEED
-	else:
-		player.play_anim(player.anim_player, "idle")
-		player.velocity.x = move_toward(player.velocity.x, 0, SPEED)
-		player.velocity.z = move_toward(player.velocity.z, 0, SPEED)
+		player.look_at(target.global_position + player.velocity, Vector3.UP)
+	#else:
+		#player.play_anim(player.anim_player, "idle")
+		#player.velocity.x = move_toward(player.velocity.x, 0, SPEED)
+		#player.velocity.z = move_toward(player.velocity.z, 0, SPEED)
 	
 	player.move_and_slide()

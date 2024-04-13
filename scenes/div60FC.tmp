@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://dtstw4mwbc5dr"]
+[gd_scene load_steps=14 format=3 uid="uid://dtstw4mwbc5dr"]
 
 [ext_resource type="Texture2D" uid="uid://b317wrttntgt0" path="res://models/diva/Diva_Dva_MAT_baseColor.png" id="1_ohw2b"]
 [ext_resource type="Script" path="res://scripts/ai/diva.gd" id="1_ufo67"]
@@ -111,9 +111,6 @@ bind/23/pose = Transform3D(-1.00001, 6.83239e-08, 7.16504e-07, 2.90041e-07, -0.4
 bind/24/name = &"R_ball_022"
 bind/24/bone = -1
 bind/24/pose = Transform3D(-1.00001, 3.85769e-08, 7.63727e-07, 6.18773e-07, -0.219768, 0.975552, 9.30233e-07, 0.975552, 0.219767, -1.87003, -1.84211, -1.25514)
-
-[sub_resource type="BoxMesh" id="BoxMesh_3bq7x"]
-size = Vector3(5, 5, 5)
 
 [sub_resource type="Animation" id="Animation_kcgfu"]
 resource_name = "idle"
@@ -741,12 +738,8 @@ tracks/43/interp = 1
 tracks/43/loop_wrap = true
 tracks/43/keys = PackedFloat32Array(0, 1, 0.707107, 5.35617e-09, 5.35617e-09, 0.707107)
 
-[sub_resource type="Animation" id="Animation_4ber4"]
-resource_name = "LoadingWater"
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_1ep17"]
 _data = {
-"LoadingWater": SubResource("Animation_4ber4"),
 "idle": SubResource("Animation_kcgfu"),
 "running": SubResource("Animation_21x5w")
 }
@@ -956,15 +949,6 @@ bones/24/scale = Vector3(1, 1, 1)
 mesh = SubResource("ArrayMesh_ymu8m")
 skin = SubResource("Skin_1luxg")
 
-[node name="BoneAttachment3D" type="BoneAttachment3D" parent="Original/Dva_fbx/RootNode/Object_3/Skeleton3D"]
-transform = Transform3D(0.12655, -0.172558, 0.977059, -0.0164651, -0.984968, -0.17195, 0.992508, 0.00552483, -0.127754, -5.7981, 18.0627, -0.880769)
-bone_name = "R_wrist_jnt_011_0"
-bone_idx = 13
-
-[node name="WateringCan" type="MeshInstance3D" parent="Original/Dva_fbx/RootNode/Object_3/Skeleton3D/BoneAttachment3D"]
-transform = Transform3D(1, 1.16415e-08, 0, -5.58794e-09, 1, -9.02219e-09, 5.96046e-08, -5.80912e-08, 1, -0.0957891, 5.39225, 0.964728)
-mesh = SubResource("BoxMesh_3bq7x")
-
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_1ep17")
@@ -984,6 +968,8 @@ script = ExtResource("4_livpq")
 
 [node name="Moving" type="Node" parent="StateMachine"]
 script = ExtResource("5_26w6l")
+SPEED = null
 
 [node name="LoadingWater" type="Node" parent="StateMachine"]
 script = ExtResource("6_cluie")
+SPEED = null

@@ -11,29 +11,33 @@ signal transitioned(state_name)
 @onready var state: State = get_node(initial_state)
 
 var player : GirlCharacter
+var isConfigured : bool = false
 
-func _ready() -> void:
-	await is_node_ready()
+func config() -> void:
+	#await owner.is_node_ready()
 	player = owner as GirlCharacter
-	#yield(owner, "ready")
-	# The state machine assigns itself to the State objects' state_machine property.
 	for child in get_children():
 		var s = child as State
 		s.state_machine = self
 		s.player = player
+	
+	isConfigured = true
 	state.enter()
 
 
 # The state machine subscribes to node callbacks and delegates them to the state objects.
 func _unhandled_input(event: InputEvent) -> void:
+	if (!isConfigured): return
 	state.handle_input(event)
 
 
 func _process(delta: float) -> void:
+	if (!isConfigured): return
 	state.update(delta)
 
 
 func _physics_process(delta: float) -> void:
+	if (!isConfigured): return
 	state.physics_update(delta)
 
 
@@ -41,6 +45,7 @@ func _physics_process(delta: float) -> void:
 # and calls its enter function.
 # It optionally takes a `msg` dictionary to pass to the next state's enter() function.
 func transition_to(target_state_name: String, msg: Dictionary = {}) -> void:
+	if (!isConfigured): return
 	# Safety check, you could use an assert() here to report an error if the state name is incorrect.
 	# We don't use an assert here to help with code reuse. If you reuse a state in different state machines
 	# but you don't want them all, they won't be able to transition to states that aren't in the scene tree.

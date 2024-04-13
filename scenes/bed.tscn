@@ -29,3 +29,28 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.51707, -0.485115, -1.51707)
 size = Vector3(3, 1, 3)
 
 [node name="cell" parent="floor" instance=ExtResource("2_kf5qt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0.415379, -1)
+
+[node name="cell2" parent="floor" instance=ExtResource("2_kf5qt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.415379, -1)
+
+[node name="cell3" parent="floor" instance=ExtResource("2_kf5qt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.415379, -1)
+
+[node name="cell4" parent="floor" instance=ExtResource("2_kf5qt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0.415379, 0)
+
+[node name="cell5" parent="floor" instance=ExtResource("2_kf5qt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.415379, 0)
+
+[node name="cell6" parent="floor" instance=ExtResource("2_kf5qt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.415379, 0)
+
+[node name="cell7" parent="floor" instance=ExtResource("2_kf5qt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1, 0.415379, 1)
+
+[node name="cell8" parent="floor" instance=ExtResource("2_kf5qt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.415379, 1)
+
+[node name="cell9" parent="floor" instance=ExtResource("2_kf5qt")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0.415379, 1)

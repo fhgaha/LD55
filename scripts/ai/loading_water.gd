@@ -2,16 +2,28 @@ extends State
 
 @export var SPEED = 5.0 
 var target : Node3D = null
+var timer : Timer
 
 func enter(_msg := {}) -> void:
-	target = player.target
+	player.play_anim("idle") 
+	#move_toward(player.velocity.x, 0, SPEED)
+	player.velocity = Vector3.ZERO
+	timer = Timer.new()
+	timer.autostart = 2
 	pass
 
 
 func update(delta: float) -> void:
-	if (target.name == "well" and
-		player.global_position.distance_squared_to(target.global_position) < 1):
-		state_machine.transition_to("LoadingWater")
+	#if (timer.time_left <= 0):
+		#var target = Global.inst.well
+		#player.target = target
+		#state_machine.transition_to("Moving")
+	var cell = Cell.get_closest_cell(player.global_position)
+	player.target = cell
+	state_machine.transition_to("Moving")
+	
+	
+		
 	pass
 
 
@@ -19,14 +31,7 @@ func exit() -> void:
 	pass
 
 func physics_update(_delta: float) -> void:
-	var direction = player.global_position.direction_to(target.global_position)
-	if direction:
-		player.play_anim(player.anim_player, "running")
-		player.velocity.x = direction.x * SPEED
-		player.velocity.z = direction.z * SPEED
-	else:
-		player.play_anim(player.anim_player, "idle")
-		player.velocity.x = move_toward(player.velocity.x, 0, SPEED)
-		player.velocity.z = move_toward(player.velocity.z, 0, SPEED)
-	
-	player.move_and_slide()
+	pass
+
+
+
