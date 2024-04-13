@@ -1,7 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://dtstw4mwbc5dr"]
+[gd_scene load_steps=14 format=3 uid="uid://dtstw4mwbc5dr"]
 
-[ext_resource type="Script" path="res://scripts/diva.gd" id="1_cqiwi"]
 [ext_resource type="Texture2D" uid="uid://b317wrttntgt0" path="res://models/diva/Diva_Dva_MAT_baseColor.png" id="1_ohw2b"]
+[ext_resource type="Script" path="res://scripts/ai/diva.gd" id="1_ufo67"]
+[ext_resource type="Script" path="res://scripts/ai/state_machine.gd" id="3_33f31"]
+[ext_resource type="Script" path="res://scripts/ai/idle.gd" id="4_livpq"]
+[ext_resource type="Script" path="res://scripts/ai/moving.gd" id="5_26w6l"]
+[ext_resource type="Script" path="res://scripts/ai/loading_water.gd" id="6_cluie"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nn6ci"]
 resource_name = "Dva_MAT_0"
@@ -746,7 +750,7 @@ height = 34.4824
 
 [node name="Diva" type="CharacterBody3D"]
 transform = Transform3D(0.04, 0, 0, 0, 0.04, 0, 0, 0, 0.04, 0, 0, 0)
-script = ExtResource("1_cqiwi")
+script = ExtResource("1_ufo67")
 
 [node name="Original" type="Node3D" parent="."]
 transform = Transform3D(-1, 8.74228e-08, 3.12648e-14, 0, -3.57628e-07, 1, 8.74228e-08, 1, 3.57628e-07, 0, 0, 0)
@@ -954,3 +958,16 @@ playback_default_blend_time = 0.3
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 17.1912, 0)
 shape = SubResource("CapsuleShape3D_v6hjh")
+
+[node name="StateMachine" type="Node" parent="."]
+script = ExtResource("3_33f31")
+initial_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="StateMachine"]
+script = ExtResource("4_livpq")
+
+[node name="Moving" type="Node" parent="StateMachine"]
+script = ExtResource("5_26w6l")
+
+[node name="LoadingWater" type="Node" parent="StateMachine"]
+script = ExtResource("6_cluie")

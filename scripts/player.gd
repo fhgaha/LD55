@@ -6,7 +6,7 @@ extends CharacterBody3D
 @onready var visual = $visual
 #@onready var stone : RigidBody3D = $visual/stone
 
-@export var SPEED = 5.0 
+#@export var SPEED = 5.0 
 @export var sens_horizontal = 0.2
 @export var sens_vertical = 0.2
 
@@ -39,18 +39,19 @@ func _physics_process(delta):
 
 func handle_movement_input():
 	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
-	var input_dir = Input.get_vector("left", "right", "forward", "backward")
-	var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
-	if direction:
-		#play_anim("Run")
-		visual.look_at(position + direction)
-		velocity.x = direction.x * SPEED
-		velocity.z = direction.z * SPEED
-	else:
-		#play_anim("Idle")
-		velocity.x = move_toward(velocity.x, 0, SPEED)
-		velocity.z = move_toward(velocity.z, 0, SPEED)
+	## As good practice, you should replace UI actions with custom gameplay actions.
+	#var input_dir = Input.get_vector("left", "right", "forward", "backward")
+	#var direction = (transform.basis * Vector3(input_dir.x, 0, input_dir.y)).normalized()
+	#if direction:
+		##play_anim("Run")
+		#visual.look_at(position + direction)
+		#velocity.x = direction.x * SPEED
+		#velocity.z = direction.z * SPEED
+	#else:
+		##play_anim("Idle")
+		#velocity.x = move_toward(velocity.x, 0, SPEED)
+		#velocity.z = move_toward(velocity.z, 0, SPEED)
+	pass
 
 
 func play_anim(player: AnimationPlayer, anim_name: String):
