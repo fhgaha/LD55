@@ -9,9 +9,18 @@ func enter(_msg := {}) -> void:
 
 
 func update(delta: float) -> void:
-	if (target.name == "well" and
-		player.global_position.distance_squared_to(target.global_position) < 1):
+	if target.name == "well" and is_reached_target(target, 1):
 		state_machine.transition_to("LoadingWater")
+	
+	var cell = target as Cell
+	if cell and cell.need["crop"] and is_reached_target(target, 2):
+		state_machine.transition_to("Planting")
+	if (cell and cell.need["water"] and player.water_amnt > 0 
+		and is_reached_target(target, 2)):
+		state_machine.transition_to("Watering")
+	
+	if target.name.contains("idle_point") and is_reached_target(target, 2):
+		state_machine.transition_to("Idle")
 	pass
 
 
@@ -25,9 +34,11 @@ func physics_update(_delta: float) -> void:
 		player.velocity.x = direction.x * SPEED
 		player.velocity.z = direction.z * SPEED
 		player.look_at(target.global_position + player.velocity, Vector3.UP)
-	#else:
-		#player.play_anim(player.anim_player, "idle")
-		#player.velocity.x = move_toward(player.velocity.x, 0, SPEED)
-		#player.velocity.z = move_toward(player.velocity.z, 0, SPEED)
 	
 	player.move_and_slide()
+
+
+func is_reached_target(target : Node3D, thres: float) -> bool:
+	return player.global_position.distance_squared_to(
+		target.global_position) < thres
+	pass

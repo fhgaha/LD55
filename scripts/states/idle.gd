@@ -1,5 +1,6 @@
 extends State
 
+
 # Upon entering the state, we set the Player node's velocity to zero.
 func enter(_msg := {}) -> void:
 	player.play_anim("idle")
@@ -8,9 +9,13 @@ func enter(_msg := {}) -> void:
 
 
 func update(delta: float) -> void:
-	if player.water_amnt <= 0:
-		player.target = Global.inst.well
-		state_machine.transition_to("Moving")
+	if try_find_crop_needy_start_moving():
+		return
+	if try_find_water_needy_start_moving():
+		return
+	player.target = player.idle_point
+	state_machine.transition_to("Moving")
+	pass
 
 
 func exit() -> void:

@@ -1,15 +1,6 @@
 class_name Cell
 extends CSGBox3D
 
-
-func _ready():
-	pass # Replace with function body.
-
-
-func _process(delta):
-	pass
-
-
 static func get_closest_cell(from: Vector3) -> Cell:
 	var closest : Cell 
 	for b in Global.inst.beds:
@@ -23,3 +14,24 @@ static func get_closest_cell(from: Vector3) -> Cell:
 			if (d1 < d2):
 				closest = c
 	return closest
+
+@onready var potato: Potato = $Potato
+
+var crop : Crop
+var need = {
+	"crop" : true,
+	"water": true,
+}
+
+func _process(delta):
+	if (crop):
+		crop.water_amnt -= 0.005
+		need["crop"] = !crop
+		need["water"] = crop.water_amnt <= 0
+	pass
+
+
+func plant_crop():
+	need["crop"] = false
+	potato.crop.plant()
+	pass

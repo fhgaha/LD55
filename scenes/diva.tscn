@@ -1,11 +1,13 @@
-[gd_scene load_steps=16 format=3 uid="uid://dtstw4mwbc5dr"]
+[gd_scene load_steps=21 format=3 uid="uid://dtstw4mwbc5dr"]
 
+[ext_resource type="Script" path="res://scripts/states/diva.gd" id="1_bt3t5"]
 [ext_resource type="Texture2D" uid="uid://b317wrttntgt0" path="res://models/diva/Diva_Dva_MAT_baseColor.png" id="1_ohw2b"]
-[ext_resource type="Script" path="res://scripts/ai/diva.gd" id="1_ufo67"]
-[ext_resource type="Script" path="res://scripts/ai/state_machine.gd" id="3_33f31"]
-[ext_resource type="Script" path="res://scripts/ai/idle.gd" id="4_livpq"]
-[ext_resource type="Script" path="res://scripts/ai/moving.gd" id="5_26w6l"]
-[ext_resource type="Script" path="res://scripts/ai/loading_water.gd" id="6_cluie"]
+[ext_resource type="Script" path="res://scripts/states/state_machine.gd" id="3_3nnpo"]
+[ext_resource type="Script" path="res://scripts/states/idle.gd" id="4_6aake"]
+[ext_resource type="Script" path="res://scripts/states/moving.gd" id="5_pknx8"]
+[ext_resource type="Script" path="res://scripts/states/planting.gd" id="6_2dobu"]
+[ext_resource type="Script" path="res://scripts/states/loading_water.gd" id="7_vo4n7"]
+[ext_resource type="Script" path="res://scripts/states/watering.gd" id="8_757d5"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nn6ci"]
 resource_name = "Dva_MAT_0"
@@ -114,6 +116,9 @@ bind/24/pose = Transform3D(-1.00001, 3.85769e-08, 7.63727e-07, 6.18773e-07, -0.2
 
 [sub_resource type="BoxMesh" id="BoxMesh_3bq7x"]
 size = Vector3(5, 5, 5)
+
+[sub_resource type="Animation" id="Animation_4ber4"]
+resource_name = "LoadingWater"
 
 [sub_resource type="Animation" id="Animation_kcgfu"]
 resource_name = "idle"
@@ -741,9 +746,6 @@ tracks/43/interp = 1
 tracks/43/loop_wrap = true
 tracks/43/keys = PackedFloat32Array(0, 1, 0.707107, 5.35617e-09, 5.35617e-09, 0.707107)
 
-[sub_resource type="Animation" id="Animation_4ber4"]
-resource_name = "LoadingWater"
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_1ep17"]
 _data = {
 "LoadingWater": SubResource("Animation_4ber4"),
@@ -755,9 +757,18 @@ _data = {
 radius = 6.0
 height = 34.4824
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_gmd7w"]
+bg_color = Color(0, 0, 0, 0.490196)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rux18"]
+bg_color = Color(0.0235294, 0, 1, 0.717647)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_d6twd"]
+viewport_path = NodePath("SubViewport")
+
 [node name="Diva" type="CharacterBody3D"]
 transform = Transform3D(0.04, 0, 0, 0, 0.04, 0, 0, 0, 0.04, 0, 0, 0)
-script = ExtResource("1_ufo67")
+script = ExtResource("1_bt3t5")
 
 [node name="Original" type="Node3D" parent="."]
 transform = Transform3D(-1, 8.74228e-08, 3.12648e-14, 0, -3.57628e-07, 1, 8.74228e-08, 1, 3.57628e-07, 0, 0, 0)
@@ -957,7 +968,7 @@ mesh = SubResource("ArrayMesh_ymu8m")
 skin = SubResource("Skin_1luxg")
 
 [node name="BoneAttachment3D" type="BoneAttachment3D" parent="Original/Dva_fbx/RootNode/Object_3/Skeleton3D"]
-transform = Transform3D(0.12655, -0.172558, 0.977059, -0.0164651, -0.984968, -0.17195, 0.992508, 0.00552483, -0.127754, -5.7981, 18.0627, -0.880769)
+transform = Transform3D(0.12655, -0.172557, 0.97706, -0.0164652, -0.984968, -0.17195, 0.992508, 0.00552502, -0.127754, -5.7981, 18.0627, -0.880767)
 bone_name = "R_wrist_jnt_011_0"
 bone_idx = 13
 
@@ -976,14 +987,48 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 17.1912, 0)
 shape = SubResource("CapsuleShape3D_v6hjh")
 
 [node name="StateMachine" type="Node" parent="."]
-script = ExtResource("3_33f31")
+script = ExtResource("3_3nnpo")
 initial_state = NodePath("Idle")
 
 [node name="Idle" type="Node" parent="StateMachine"]
-script = ExtResource("4_livpq")
+script = ExtResource("4_6aake")
 
 [node name="Moving" type="Node" parent="StateMachine"]
-script = ExtResource("5_26w6l")
+script = ExtResource("5_pknx8")
+
+[node name="Planting" type="Node" parent="StateMachine"]
+script = ExtResource("6_2dobu")
 
 [node name="LoadingWater" type="Node" parent="StateMachine"]
-script = ExtResource("6_cluie")
+script = ExtResource("7_vo4n7")
+
+[node name="Watering" type="Node" parent="StateMachine"]
+script = ExtResource("8_757d5")
+
+[node name="SubViewport" type="SubViewport" parent="."]
+transparent_bg = true
+handle_input_locally = false
+size = Vector2i(256, 256)
+render_target_update_mode = 4
+
+[node name="ProgressBar" type="ProgressBar" parent="SubViewport"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -64.0
+offset_top = -8.0
+offset_right = 64.0
+offset_bottom = 8.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/background = SubResource("StyleBoxFlat_gmd7w")
+theme_override_styles/fill = SubResource("StyleBoxFlat_rux18")
+value = 50.0
+show_percentage = false
+
+[node name="Sprite3D" type="Sprite3D" parent="."]
+transform = Transform3D(33.18, 0, 0, 0, 33.18, 0, 0, 0, 33.18, 0, 44.0375, 0)
+billboard = 1
+texture = SubResource("ViewportTexture_d6twd")

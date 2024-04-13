@@ -29,3 +29,27 @@ func enter(_msg := {}) -> void:
 # to clean up the state.
 func exit() -> void:
 	pass
+
+
+func try_find_crop_needy_start_moving() -> bool:
+	var cn = Global.inst.get_first_crop_needy_cell()
+	if (cn):
+		player.target = cn
+		state_machine.transition_to("Moving")
+		return true
+	return false
+
+
+func try_find_water_needy_start_moving() -> bool:
+	var wn = Global.inst.get_first_water_needy_cell()
+	if (wn):
+		if (player.water_amnt >= 1.0):
+			#print("water amnt: ", player.water_amnt)
+			player.target = wn
+			state_machine.transition_to("Moving")
+			return true
+		else:
+			player.target = Global.inst.well
+			state_machine.transition_to("Moving")
+			return true
+	return false

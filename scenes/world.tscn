@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://dlcpsecqrmfa0"]
+[gd_scene load_steps=18 format=3 uid="uid://dlcpsecqrmfa0"]
 
 [ext_resource type="Texture2D" uid="uid://cqc2km3qe8g65" path="res://Textures/kenney_prototype-textures/PNG/Dark/texture_06.png" id="1_pafwg"]
 [ext_resource type="Script" path="res://scripts/global.gd" id="1_vuwcd"]
@@ -25,6 +25,8 @@ glow_enabled = true
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_myw4n"]
 albedo_texture = ExtResource("1_pafwg")
 uv1_triplanar = true
+
+[sub_resource type="BoxMesh" id="BoxMesh_piiqc"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qs2e5"]
 albedo_texture = ExtResource("2_lfni7")
@@ -62,6 +64,13 @@ size = Vector3(100, 1, 100)
 [node name="Placebles" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -11.5741, 0, 9.29549)
 
+[node name="idle_point" type="Node3D" parent="Placebles"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.725, 0, -5.73078)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Placebles/idle_point"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.475372, 0)
+mesh = SubResource("BoxMesh_piiqc")
+
 [node name="box1x1" type="CSGBox3D" parent="Placebles"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 material_override = SubResource("StandardMaterial3D_qs2e5")
@@ -95,5 +104,6 @@ mesh = SubResource("CylinderMesh_bpamj")
 [node name="player" parent="characters" instance=ExtResource("5_xde1g")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.82629, 0, 7.63138)
 
-[node name="Diva" parent="characters" instance=ExtResource("6_i7aj4")]
+[node name="Diva" parent="characters" node_paths=PackedStringArray("idle_point") instance=ExtResource("6_i7aj4")]
 transform = Transform3D(-1.74846e-09, 0, -0.04, 0, 0.04, 0, 0.04, 0, -1.74846e-09, -6.08019, 0, -0.962655)
+idle_point = NodePath("../../Placebles/idle_point")

@@ -2,28 +2,28 @@ extends State
 
 @export var SPEED = 5.0 
 var target : Node3D = null
-var timer : Timer
+var timer : float = 0
 
 func enter(_msg := {}) -> void:
 	player.play_anim("idle") 
 	#move_toward(player.velocity.x, 0, SPEED)
 	player.velocity = Vector3.ZERO
-	timer = Timer.new()
-	timer.autostart = 2
 	pass
 
 
 func update(delta: float) -> void:
-	#if (timer.time_left <= 0):
-		#var target = Global.inst.well
-		#player.target = target
-		#state_machine.transition_to("Moving")
-	var cell = Cell.get_closest_cell(player.global_position)
-	player.target = cell
-	state_machine.transition_to("Moving")
-	
-	
+	timer += 1 * delta;
+	if (timer >= 1):
+		timer = 0
+		var cell = player.target as Cell
+		cell.plant_crop()
 		
+		if try_find_crop_needy_start_moving():
+			return
+		if try_find_water_needy_start_moving():
+			return
+		player.target = player.idle_point
+		state_machine.transition_to("Moving")
 	pass
 
 
