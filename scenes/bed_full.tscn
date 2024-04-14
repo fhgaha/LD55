@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scripts/bed.gd" id="1_wdrq6"]
 [ext_resource type="PackedScene" uid="uid://fp3nquopbh1o" path="res://scenes/cell.tscn" id="2_kf5qt"]
 
-[node name="bed" type="Node3D"]
+[node name="bed_full" type="Node3D"]
 script = ExtResource("1_wdrq6")
 
 [node name="fences" type="Node3D" parent="."]

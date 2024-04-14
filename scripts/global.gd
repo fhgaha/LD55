@@ -3,7 +3,7 @@ extends Node
 
 static var inst : Global
 @export var well : Node3D
-@export var beds : Array[Bed]
+@onready var beds: Node3D = $"../Placebles/beds"
 
 
 func _ready() -> void:
@@ -13,24 +13,24 @@ func _ready() -> void:
 
 
 func get_first_crop_needy_cell() -> Cell:
-	for b in beds:
+	for b in beds.get_children():
 		for c in b.get_cells():
-			if c.need["crop"]:
+			if c.need["crop"] and !c.is_occupied:
 				return c
 	return null
 
 
 func get_first_water_needy_cell() -> Cell:
-	for b in beds:
+	for b in beds.get_children():
 		for c in b.get_cells():
-			if c.need["water"]:
+			if c.need["water"] and !c.is_occupied:
 				return c
 	return null
 
 
 func get_first_needy_cells() -> Dictionary:
 	var d = {"cell" : null, "need_type" : null}
-	for b in beds:
+	for b in beds.get_children():
 		for c in b.get_cells():
 			if c.need["crop"]:
 				d["cell"] = c
@@ -45,7 +45,7 @@ func get_first_needy_cells() -> Dictionary:
 
 func get_crop_needy_cells() -> Array[Cell]:
 	var cells : Array[Cell] = []
-	for b in beds:
+	for b in beds.get_children():
 		for c in b.get_cells():
 			if c.need["crop"]:
 				cells.append(c)
@@ -54,7 +54,7 @@ func get_crop_needy_cells() -> Array[Cell]:
 
 func get_water_needy_cells() -> Array[Cell]:
 	var cells : Array[Cell] = []
-	for b in beds:
+	for b in beds.get_children():
 		for c in b.get_cells():
 			if c.need["water"]:
 				cells.append(c)

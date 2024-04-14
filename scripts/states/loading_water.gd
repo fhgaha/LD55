@@ -1,6 +1,6 @@
 extends State
 
-@export var SPEED = 5.0 
+var full_thresh : float = 5
 
 func enter(_msg := {}) -> void:
 	player.play_anim("idle") 
@@ -10,14 +10,15 @@ func enter(_msg := {}) -> void:
 
 
 func update(delta: float) -> void:
-	if (player.water_amnt < 1):
-		player.water_amnt += 2 * delta
+	if (player.water_amnt < player.water_full):
+		player.water_amnt += 10 * delta
 	
-	if (player.water_amnt >= 5):
+	if (player.water_amnt >= player.water_full):
 		if try_find_water_needy_start_moving():
 			return
 		player.target = player.idle_point
 		state_machine.transition_to("Moving")
+		return
 	pass
 
 

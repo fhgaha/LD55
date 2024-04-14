@@ -43,7 +43,7 @@ func try_find_crop_needy_start_moving() -> bool:
 func try_find_water_needy_start_moving() -> bool:
 	var wn = Global.inst.get_first_water_needy_cell()
 	if (wn):
-		if (player.water_amnt >= 1.0):
+		if (player.water_amnt > 0):
 			#print("water amnt: ", player.water_amnt)
 			player.target = wn
 			state_machine.transition_to("Moving")
@@ -53,3 +53,5 @@ func try_find_water_needy_start_moving() -> bool:
 			state_machine.transition_to("Moving")
 			return true
 	return false
+
+

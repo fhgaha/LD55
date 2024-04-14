@@ -55,5 +55,5 @@ func transition_to(target_state_name: String, msg: Dictionary = {}) -> void:
 	state.exit()
 	state = get_node(target_state_name)
 	state.enter(msg)
-	print(player.target, state)
+	#print("%s: %s, %s" % [self.name, player.target.name, state.name])
 	emit_signal("transitioned", state.name)

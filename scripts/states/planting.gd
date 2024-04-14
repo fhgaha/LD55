@@ -8,6 +8,7 @@ func enter(_msg := {}) -> void:
 	player.play_anim("idle") 
 	#move_toward(player.velocity.x, 0, SPEED)
 	player.velocity = Vector3.ZERO
+	(player.target as Cell).is_occupied = true
 	pass
 
 
@@ -19,11 +20,14 @@ func update(delta: float) -> void:
 		cell.plant_crop()
 		
 		if try_find_crop_needy_start_moving():
+			cell.is_occupied = false;
 			return
 		if try_find_water_needy_start_moving():
+			cell.is_occupied = false;
 			return
 		player.target = player.idle_point
 		state_machine.transition_to("Moving")
+		cell.is_occupied = false;
 	pass
 
 

@@ -1,5 +1,5 @@
 class_name Crop
-extends Node
+extends Node3D
 
 @export_category("set")
 @export var stage_0 : Node3D
@@ -8,19 +8,35 @@ extends Node
 @export var stage_3 : Node3D
 
 @export_category("display")
-@export var cur_stage : int = 0
-@export var ready_bar : float = 0
+@export var cur_stage  : int   = 0
+@export var growth  : float = 0
+@export var growth_max  : float = 1
 @export var water_amnt : float = 0
+@export var water_amnt_max : float = 1
+
+var timer: float = 0
 
 func _ready() -> void:
 	pass # Replace with function body.
 
 
-func update_ready_bar(val: float) -> void:
-	ready_bar += val;
-	if (ready_bar > 1):
-		print("ready_bar is full!")
+func _process(delta: float) -> void:
+	timer += delta
+	if (timer > 1):
+		timer = 0
+		grow()
 	pass
+
+
+func grow():
+	if (water_amnt <= 0): return
+	
+	water_amnt -= 0.1
+	growth += 0.1
+	print("%s: growth: %s" % [self.name, growth])
+	if (growth >= growth_max):
+		to_next_stage()
+		growth = 0
 
 
 func plant():
@@ -43,3 +59,12 @@ func to_next_stage() -> void:
 	
 	cur_stage += 1
 	pass
+
+
+func is_planted():
+	return (stage_0.visible 
+		 or stage_1.visible
+		 or stage_2.visible
+		 or stage_3.visible
+	)
+

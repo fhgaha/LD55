@@ -1,5 +1,6 @@
 extends State
 
+var timer : float = 0
 
 # Upon entering the state, we set the Player node's velocity to zero.
 func enter(_msg := {}) -> void:
@@ -9,12 +10,13 @@ func enter(_msg := {}) -> void:
 
 
 func update(delta: float) -> void:
-	if try_find_crop_needy_start_moving():
-		return
-	if try_find_water_needy_start_moving():
-		return
-	player.target = player.idle_point
-	state_machine.transition_to("Moving")
+	timer += delta 
+	if (timer > 0.5):
+		timer = 0
+		if try_find_crop_needy_start_moving():
+			return
+		if try_find_water_needy_start_moving():
+			return
 	pass
 
 

@@ -13,14 +13,21 @@ func update(delta: float) -> void:
 		state_machine.transition_to("LoadingWater")
 	
 	var cell = target as Cell
-	if cell and cell.need["crop"] and is_reached_target(target, 2):
-		state_machine.transition_to("Planting")
-	if (cell and cell.need["water"] and player.water_amnt > 0 
-		and is_reached_target(target, 2)):
-		state_machine.transition_to("Watering")
-	
+	if (cell):
+		if cell.is_occupied:
+			state_machine.transition_to("Idle")
+		
+		if cell and cell.need["crop"] and is_reached_target(target, 2):
+			state_machine.transition_to("Planting")
+			return
+		if (cell and cell.need["water"] and player.water_amnt > 0 
+			and is_reached_target(target, 2)):
+			state_machine.transition_to("Watering")
+			return
+			
 	if target.name.contains("idle_point") and is_reached_target(target, 2):
 		state_machine.transition_to("Idle")
+		return
 	pass
 
 
